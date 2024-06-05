@@ -1,12 +1,10 @@
 package com.gktech.bankaccount.model
 
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
-import jakarta.persistence.SequenceGenerator
+
 import org.hibernate.annotations.GenericGenerator
+import javax.persistence.Entity
+import javax.persistence.*
+import javax.persistence.SequenceGenerator
 
 @Entity
 @SequenceGenerator(name = "CUS_ID", sequenceName = "CUS_ID_GENERATOR")

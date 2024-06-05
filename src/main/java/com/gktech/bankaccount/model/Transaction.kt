@@ -1,16 +1,12 @@
 package com.gktech.bankaccount.model
 
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.SequenceGenerator
+
 import jdk.jfr.DataAmount
 import java.math.BigDecimal
 import java.time.LocalDateTime
+import javax.persistence.Entity
+import javax.persistence.*
+import javax.persistence.SequenceGenerator
 
 @Entity
 @SequenceGenerator(name = "TR_ID", sequenceName = "TR_ID_GENERATOR")
@@ -26,6 +22,13 @@ data class Transaction(
         @JoinColumn(name = "account_id", nullable =  false)
         val account: Account
 ) {
+    constructor(amount: BigDecimal, account: Account) : this (
+        id = null,
+        amount = amount,
+        transactionDate =  LocalDateTime.now(),
+        transactionType = TransactionType.INITIAL,
+        account = account
+    )
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

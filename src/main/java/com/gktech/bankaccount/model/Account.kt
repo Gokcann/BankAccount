@@ -1,16 +1,19 @@
 package com.gktech.bankaccount.model
 
-import jakarta.persistence.*
+//import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 import java.math.BigDecimal
 import java.time.LocalDateTime
+import javax.persistence.Entity
+import javax.persistence.*
+import javax.persistence.SequenceGenerator
 
 @Entity
 @SequenceGenerator(name = "ACC_ID", sequenceName = "ACC_ID_GENERATOR")
 data class Account(
         @Id
         @GeneratedValue(generator = "ACC_ID")
-        val id: String?,
+        val id: String? = "",
         val balance: BigDecimal? = BigDecimal.ZERO,
         val creationDate: LocalDateTime,
 
@@ -19,10 +22,17 @@ data class Account(
         val customer: Customer?,
 
         @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-        val transaction: Set<Transaction>?
+        val transaction: Set<Transaction> = HashSet()
 
 
 ) {
+
+        constructor(customer: Customer, balance: BigDecimal, creationDate: LocalDateTime) : this (
+                "",
+                customer = customer,
+                balance = balance,
+                creationDate = creationDate
+        )
         override fun equals(other: Any?): Boolean {
                 if (this === other) return true
                 if (javaClass != other?.javaClass) return false
