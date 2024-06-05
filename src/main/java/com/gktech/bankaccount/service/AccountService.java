@@ -18,16 +18,13 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final CustomerService customerService;
-    private final TransactionService transactionService;
     private final AccountDtoConverter converter;
 
     public AccountService(AccountRepository accountRepository,
                           CustomerService customerService,
-                          TransactionService transactionService,
                           AccountDtoConverter converter) {
         this.accountRepository = accountRepository;
         this.customerService = customerService;
-        this.transactionService = transactionService;
         this.converter = converter;
     }
 
@@ -41,10 +38,9 @@ public class AccountService {
                 );
 
         if (createAccountRequest.getInitialCredit().compareTo(BigDecimal.ZERO) > 0) {
-            Transaction transaction = transactionService.initiateMoney(account,createAccountRequest.getInitialCredit());
+            Transaction transaction = new Transaction(createAccountRequest.getInitialCredit(),account);
             account.getTransaction().add(transaction);
         }
-
         return converter.convert(accountRepository.save(account));
     }
 }

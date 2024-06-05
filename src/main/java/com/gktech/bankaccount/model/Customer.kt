@@ -7,10 +7,11 @@ import javax.persistence.*
 import javax.persistence.SequenceGenerator
 
 @Entity
-@SequenceGenerator(name = "CUS_ID", sequenceName = "CUS_ID_GENERATOR")
+//@SequenceGenerator(name = "CUS_ID", sequenceName = "CUS_ID_GENERATOR")
 data class Customer(
         @Id
-        @GeneratedValue(generator = "CUS_ID")
+        @GeneratedValue(generator = "UUID")
+        @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
         val id: String?,
 
         val name: String?,

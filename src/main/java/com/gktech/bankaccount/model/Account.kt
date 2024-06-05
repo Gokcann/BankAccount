@@ -9,10 +9,10 @@ import javax.persistence.*
 import javax.persistence.SequenceGenerator
 
 @Entity
-@SequenceGenerator(name = "ACC_ID", sequenceName = "ACC_ID_GENERATOR")
 data class Account(
         @Id
-        @GeneratedValue(generator = "ACC_ID")
+        @GeneratedValue(generator = "UUID")
+        @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
         val id: String? = "",
         val balance: BigDecimal? = BigDecimal.ZERO,
         val creationDate: LocalDateTime,
@@ -21,7 +21,7 @@ data class Account(
         @JoinColumn(name = "customer_id", nullable = false)
         val customer: Customer?,
 
-        @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+        @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         val transaction: Set<Transaction> = HashSet()
 
 

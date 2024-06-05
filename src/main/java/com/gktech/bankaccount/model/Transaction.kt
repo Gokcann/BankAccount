@@ -2,6 +2,7 @@ package com.gktech.bankaccount.model
 
 
 import jdk.jfr.DataAmount
+import org.hibernate.annotations.GenericGenerator
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.persistence.Entity
@@ -9,16 +10,17 @@ import javax.persistence.*
 import javax.persistence.SequenceGenerator
 
 @Entity
-@SequenceGenerator(name = "TR_ID", sequenceName = "TR_ID_GENERATOR")
+//@SequenceGenerator(name = "TR_ID", sequenceName = "TR_ID_GENERATOR")
 data class Transaction(
         @Id
-        @GeneratedValue(generator = "TR_ID")
+        @GeneratedValue(generator = "UUID")
+        @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
         val id: String?,
         val transactionType: TransactionType? = TransactionType.INITIAL,
         val amount: BigDecimal?,
         val transactionDate: LocalDateTime?,
 
-        @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = [CascadeType.ALL])
+        @ManyToOne(fetch = FetchType.LAZY, optional = false)
         @JoinColumn(name = "account_id", nullable =  false)
         val account: Account
 ) {
